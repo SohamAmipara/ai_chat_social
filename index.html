@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Message Variation Test</title>
+</head>
+<body>
+    <h1>AI Message Variation Test</h1>
+    
+    <label for="message">Enter your message:</label><br>
+    <textarea id="message" rows="4" cols="50">Hey Soham, Thank you for connect with us. How can we help you?</textarea><br><br>
+    
+    <button onclick="generateVariations()">Generate Variations</button>
+    
+    <h2>Generated Variations:</h2>
+    <ul id="variations"></ul>
+    
+    <script>
+        async function generateVariations() {
+            const message = document.getElementById('message').value;
+            const response = await fetch('https://ai-chat-social.onrender.com/generate_variations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            });
+            
+            const variations = await response.json();
+            const variationsList = document.getElementById('variations');
+            variationsList.innerHTML = '';
+            
+            variations.forEach(variation => {
+                const listItem = document.createElement('li');
+                listItem.textContent = variation;
+                variationsList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>
